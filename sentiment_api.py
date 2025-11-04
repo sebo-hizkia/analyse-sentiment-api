@@ -1,6 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from nltk.sentiment import SentimentIntensityAnalyzer
+from loguru import logger
+
+# Configuration du logger
+logger.add("logs/sentiment_api.log", rotation="100 MB", level="INFO")
 
 # Création de l'application FastAPI
 app = FastAPI(title="API d'analyse de sentiment")
@@ -20,7 +24,9 @@ async def analyse_sentiment(texte_object: Texte):
     Retourne un dictionnaire JSON avec les scores VADER.
     """
     try:
+        logger.info(f"Texte reçu : {texte_object.texte}")
         sentiment = sia.polarity_scores(texte_object.texte)
+        logger.info(f"Résultat : {sentiment}")
 
         return {
             "neg": sentiment["neg"],
@@ -30,4 +36,5 @@ async def analyse_sentiment(texte_object: Texte):
         }
 
     except Exception as e:
+        logger.error(f"Erreur d'analyse : {e}")
         raise HTTPException(status_code=500, detail=str(e))
