@@ -1,3 +1,10 @@
+## Configuration de l'environnement virtuel python
+```
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
 ## Configuration du dépôt
 ### Initialisation du dépôt GIT local
 ```
@@ -18,4 +25,9 @@ git push -u origin main
 ## Développement
 ### API
 Lancement de l'API : ```uvicorn sentiment_api:app --reload --port 9000```
+
 Test de l'API via interface automatique : http://127.0.0.1:9000/docs
+
+### Page web de test
+Lancement de l'application : ```streamlit run sentiment_streamlit.py```
+
